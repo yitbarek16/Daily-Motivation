@@ -41,18 +41,18 @@ jobs:
             echo "runner_public.json is missing from the repo" >&2
             exit 1
           fi
-          python - << 'PY'
-import json, os
-pub = json.load(open('runner_public.json', 'r', encoding='utf-8'))
-cfg = {
-  'session_id': os.environ['SESSION_ID'],
-  'account_id': int(pub['account_id']),
-  'project_id': int(pub['project_id']),
-  'message_board_id': int(pub['message_board_id']),
-  'cc_ids': pub.get('cc_ids', []),
-}
-open('runner_config.json','w', encoding='utf-8').write(json.dumps(cfg))
-print('runner_config.json built from runner_public.json + SESSION_ID')
+          python - <<'PY'
+          import json, os
+          pub = json.load(open('runner_public.json', 'r', encoding='utf-8'))
+          cfg = {
+            'session_id': os.environ['SESSION_ID'],
+            'account_id': int(pub['account_id']),
+            'project_id': int(pub['project_id']),
+            'message_board_id': int(pub['message_board_id']),
+            'cc_ids': pub.get('cc_ids', []),
+          }
+          open('runner_config.json','w', encoding='utf-8').write(json.dumps(cfg))
+          print('runner_config.json built from runner_public.json + SESSION_ID')
 PY
 
       - name: Recreate access token json from secret (base64)
